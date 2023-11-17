@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Exercises full stack application." />
+    <meta name="author" content="Al Baker" />
+
+    <!-- STYLE SHEETS -->
+    <link href="src/css/styles.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      src="https://kit.fontawesome.com/369097350a.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- FAVICON STUFF -->
+
+    <title>Workout Builder</title>
+  </head>
+  <body>
+    <header></header>
+    <main></main>
+    <footer>
+        <p>&copy; <span id="currYear"></span> &bull; Al Baker &bull; Utah Valley University</p>
+    </footer>
+    <script src="src/js/main.js"></script>
+    <script>
+        const date = new Date();
+        const currYear = date.getFullYear();
+        let yearSpan = document.querySelector("#currYear");
+        yearSpan.textContent = currYear;
+    </script>
+  </body>
+</html>
