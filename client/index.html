@@ -20,17 +20,102 @@
     <title>Workout Builder</title>
   </head>
   <body>
-    <header></header>
-    <main></main>
-    <footer>
-        <p>&copy; <span id="currYear"></span> &bull; Al Baker &bull; Utah Valley University</p>
-    </footer>
+    <div class="bg-slate-300">
+      <header
+        class="w-2/3 mx-auto py-6 flex flex-row justify-between items-center"
+      >
+        <h1 class="font-bold text-3xl text-slate-800">Workout Builder</h1>
+        <div>
+          <button class="btn mr-8 text-lg">Create</button>
+          <button class="text-lg">My Lists</button>
+        </div>
+      </header>
+    </div>
+    <main class="w-2/3 mx-auto">
+      <div>
+        <select
+          id="searchSelection"
+          class="p-2 my-4 mr-4 bg-slate-100 rounded-md"
+        >
+          <option value="">--Search By--</option>
+          <option value="name">Exercise Name</option>
+          <option value="type">Exercise Type</option>
+          <option value="muscle">Muscle Group</option>
+          <option value="difficulty">Exercise Difficulty</option>
+        </select>
+        <select
+          id="typeSelection"
+          class="hidden p-2 mr-4 bg-slate-100 rounded-md"
+        >
+          <option value="">--Choose Exercise Type--</option>
+          <option value="cardio">Cardio</option>
+          <option value="olympic_weightlifting">Olympic Weightlifting</option>
+          <option value="plyometrics">Plyometrics</option>
+          <option value="powerlifting">Powerlifting</option>
+          <option value="strength">Strength</option>
+          <option value="stretching">Stretching</option>
+          <option value="strongman">Strongman</option>
+        </select>
+        <select
+          id="muscleSelection"
+          class="hidden p-2 mr-4 bg-slate-100 rounded-md"
+        >
+          <option value="">--Choose Muscle Group--</option>
+          <option value="abdominals">Abdominals</option>
+          <option value="abductors">Abductors</option>
+          <option value="adductors">Adductors</option>
+          <option value="biceps">Biceps</option>
+          <option value="calves">Calves</option>
+          <option value="chest">Chest</option>
+          <option value="forearms">Forearms</option>
+          <option value="glutes">Glutes</option>
+          <option value="hamstrings">Hamstrings</option>
+          <option value="lats">Lats</option>
+          <option value="lower_back">Lower Back</option>
+          <option value="middle_back">Middle Back</option>
+          <option value="neck">Neck</option>
+          <option value="quadriceps">Quadriceps</option>
+          <option value="traps">Traps</option>
+          <option value="triceps">Triceps</option>
+        </select>
+        <select
+          id="difficultySelection"
+          class="hidden p-2 mr-4 bg-slate-100 rounded-md"
+        >
+          <option value="">--Choose Difficulty--</option>
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="expert">Expert</option>
+        </select>
+        <input
+          id="nameSearch"
+          class="hidden p-2 mr-4 bg-slate-100 rounded-md"
+          type="text"
+          placeholder="Exercise Name"
+        />
+        <button
+          id="searchBtn"
+          class="btn bg-slate-900 my-4 py-2 px-4 rounded-md text-white"
+        >
+          Search Exercises
+        </button>
+      </div>
+      <div id="exercisesList"></div>
+    </main>
+    <div class="bg-slate-300">
+      <footer class="w-2/3 mx-auto text-center py-6">
+        <p class="text-sm">
+          &copy; <span id="currYear"></span> &bull; Al Baker &bull; Utah Valley
+          University
+        </p>
+      </footer>
+    </div>
     <script src="src/js/main.js"></script>
     <script>
-        const date = new Date();
-        const currYear = date.getFullYear();
-        let yearSpan = document.querySelector("#currYear");
-        yearSpan.textContent = currYear;
+      const date = new Date();
+      const currYear = date.getFullYear();
+      let yearSpan = document.querySelector("#currYear");
+      yearSpan.textContent = currYear;
     </script>
   </body>
 </html>
