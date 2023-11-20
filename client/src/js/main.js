@@ -57,6 +57,7 @@ function hideAll() {
 
 let baseURL = "https://api.api-ninjas.com/v1/exercises?";
 let api_key = "1JMQnEy0RPLJV4tBNDZCow==0istE6CwLcnJjg1s";
+let currentExercises;
 
 searchBtn.addEventListener("click", () => {
   let searchType = searchSelection.value;
@@ -67,7 +68,6 @@ searchBtn.addEventListener("click", () => {
   if (searchType === "difficulty") searchInput = difficultySelection.value;
 
   let fullURL = baseURL + searchType + "=" + searchInput;
-  console.log(fullURL);
   fetch(fullURL, {
     method: "GET",
     headers: {
@@ -77,8 +77,8 @@ searchBtn.addEventListener("click", () => {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
-      populateExercises(data);
+      currentExercises = data;
+      populateExercises(currentExercises);
       hideAll();
     });
 });
@@ -86,26 +86,56 @@ searchBtn.addEventListener("click", () => {
 let container = document.querySelector("#exercisesList");
 
 function populateExercises(exercises) {
-    container.innerHTML = "";
-    let idCount = 0;
+  container.innerHTML = "";
+  let idCount = 0;
 
-    exercises.forEach((exercise) => {
-        let div = 
-            `<section class="p-4 rounded-md bg-slate-50 my-4 shadow-md">
-                <h2 class="font-bold text-2xl text-slate-800 mb-4">${exercise.name}</h2>
-                <h3 class="font-bold text-lg text-slate-600 mb-2">Difficulty: ${exercise.difficulty}</h3>
-                <h3 class="font-bold text-lg text-slate-600 mb-2">Type: ${exercise.type}</h3>
-                <h3 class="font-bold text-lg text-slate-600 mb-4">Muscle: ${exercise.muscle}</h3>
-                <button class="btn bg-slate-900 text-white px-4 py-2 rounded-md" onclick="toggleInstructions(${idCount})">View Instructions</button>
-                <p id="${idCount}" class="hidden mt-4 text-slate-900">${exercise.instructions}</p>
-            </section>`;
-        
-        container.insertAdjacentHTML("beforeend", div);
-        idCount++;
-    })
+  exercises.forEach((exercise) => {
+    let paragraphId = "paragraph" + idCount;
+
+    let div = `<section class="p-4 rounded-md bg-slate-50 my-4 shadow-md"">
+                <div class="flex flex-row justify-between items-center">
+                  <h2 class="font-bold text-2xl text-slate-800 mb-4">${exercise.name}</h2>
+                  <button class="btn bg-emerald-600 text-white px-3 py-2 rounded-full" onclick="showDropdown(event)"><i class="fa-solid fa-plus"></i></button>
+                  <select class="listSelection hidden" onchange="addExercise(${idCount})"></select>
+                </div>
+                <h3 class="font-bold text-lg text-slate-600 mb-2">Difficulty: ${exercise.difficulty}, Type: ${exercise.type}, Muscle: ${exercise.muscle}</h3>
+                <button class="btn bg-slate-900 text-white px-4 py-2 rounded-md" onclick="toggleInstructions(${paragraphId})">View Instructions</button>
+                <p id="${paragraphId}" class="hidden mt-4 text-slate-900">${exercise.instructions}</p>
+              </section>`;
+
+    container.insertAdjacentHTML("beforeend", div);
+    idCount++;
+  });
 }
 
+function populateDropdown() {
+  let addDropdowns = document.querySelectorAll(".listSelection");
+  console.log(addDropdowns);
+  fetch("/api/lists")
+    .then((res) => res.json())
+    .then((data) => {
+      addDropdowns.forEach((dropdown) => {
+        dropdown.innerHTML = "<option value=''>--Add to List--</option>";
+        data.forEach((list) => {
+          let option = `<option value="${list.id}">${list.name}</option>`;
+          dropdown.insertAdjacentHTML("beforeend", option);
+        });
+      });
+    });
+}
+
+populateDropdown();
+
 function toggleInstructions(paragraphId) {
-    let paragraph = document.getElementById(paragraphId);
-    paragraph.classList.toggle("hidden");
+  paragraphId.classList.toggle("hidden");
+}
+
+function showDropdown(event) {
+  let clicked = event.target;
+  let dropdown = clicked.closest("div").lastElementChild;
+  dropdown.classList.toggle("hidden");
+}
+
+function addExercise(idToAdd) {
+  console.log(currentExercises[idToAdd]);
 }
