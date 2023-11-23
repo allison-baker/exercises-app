@@ -26,8 +26,13 @@
       >
         <h1 class="font-bold text-3xl text-slate-800">Workout Builder</h1>
         <div>
-          <button class="btn mr-8 text-lg underline underline-offset-4 font-bold text-slate-600">Create</button>
-          <button class="text-lg">My Lists</button>
+          <a
+            class="mr-8 text-lg underline font-bold text-slate-600"
+            href="index.html"
+          >
+            Create
+          </a>
+          <a class="text-lg" href="lists.html">My Lists</a>
         </div>
       </header>
     </div>
@@ -99,6 +104,16 @@
         >
           Search Exercises
         </button>
+        <button
+          id="clearSearch"
+          class="btn bg-slate-900 ml-2 my-4 py-2 px-4 rounded-md text-white"
+        >
+          Clear Search
+        </button>
+      </div>
+      <div id="waitingMessage" class="w-full flex justify-center items-center flex-col pt-36">
+        <h2 class="text-2xl pb-2">Welcome!</h2>
+        <p>Use the search to display exercises here.</p>
       </div>
       <div id="exercisesList"></div>
     </main>

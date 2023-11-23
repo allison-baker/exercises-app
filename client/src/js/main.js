@@ -6,6 +6,7 @@ let muscleSelection = document.querySelector("#muscleSelection");
 let difficultySelection = document.querySelector("#difficultySelection");
 
 let searchBtn = document.querySelector("#searchBtn");
+let clearBtn = document.querySelector("#clearSearch");
 let searchInput = "";
 
 searchSelection.addEventListener("change", (event) => {
@@ -59,7 +60,7 @@ let baseURL = "https://api.api-ninjas.com/v1/exercises?";
 let api_key = "1JMQnEy0RPLJV4tBNDZCow==0istE6CwLcnJjg1s";
 let currentExercises;
 
-searchBtn.addEventListener("click", () => {
+function searchExercises() {
   let searchType = searchSelection.value;
 
   if (searchType === "name") searchInput = nameSearch.value;
@@ -82,12 +83,26 @@ searchBtn.addEventListener("click", () => {
       populateDropdown();
       hideAll();
     });
+}
+
+searchBtn.addEventListener("click", () => searchExercises());
+nameSearch.addEventListener("keyup", (event) => {
+  if (event.keyCode === 13) searchExercises();
 });
 
 let container = document.querySelector("#exercisesList");
+let waitingMessage = document.querySelector("#waitingMessage");
+
+clearBtn.addEventListener("click", () => {
+  container.innerHTML = "";
+  waitingMessage.classList.remove("hidden");
+})
 
 function populateExercises(exercises) {
   container.innerHTML = "";
+  if (!waitingMessage.classList.contains("hidden")) {
+    waitingMessage.classList.add("hidden");
+  }
   let idCount = 0;
 
   exercises.forEach((exercise) => {
@@ -98,7 +113,7 @@ function populateExercises(exercises) {
                   <h2 class="font-bold text-2xl text-slate-800 mb-4">${exercise.name}</h2>
                   <section>
                     <button class="btn bg-emerald-600 text-white px-3 py-2 rounded-full" onclick="showDropdown(event)"><i class="fa-solid fa-plus"></i></button>
-                    <select class="listSelection" style="display: none;" onchange="addExercise(${idCount})"></select>
+                    <select class="listSelection" style="display: none;" onchange="addExercise(event, ${idCount})"></select>
                   </section>
                 </div>
                 <h3 class="font-bold text-lg text-slate-600 mb-2">Difficulty: ${exercise.difficulty}, Type: ${exercise.type}, Muscle: ${exercise.muscle}</h3>
@@ -112,18 +127,17 @@ function populateExercises(exercises) {
 }
 
 function populateDropdown() {
-  let addDropdowns = document.querySelectorAll(".listSelection");
-  console.log(addDropdowns);
+  let addDropdowns = document.getElementsByClassName("listSelection");
   fetch("/api/lists")
     .then((res) => res.json())
     .then((data) => {
-      for(let i=0; i< addDropdowns.length; i++) {
-        addDropdowns[i].innerHTML = "<option value=''>--Add to List--</option>";
+      Array.from(addDropdowns).forEach((dropdown) => {
+        dropdown.innerHTML = "<option value=''>--Add to List--</option>";
         data.forEach((list) => {
           let option = `<option value="${list.id}">${list.name}</option>`;
-          addDropdowns[i].appendChild(option);
+          dropdown.insertAdjacentHTML("beforeend", option);
         });
-      };
+      });
     });
 }
 
@@ -141,6 +155,7 @@ function showDropdown(event) {
   }
 }
 
-function addExercise(idToAdd) {
+function addExercise(event, idToAdd) {
+  showDropdown(event);
   console.log(currentExercises[idToAdd]);
 }
