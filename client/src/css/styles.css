@@ -8,3 +8,11 @@ body {
     font-size: 16px;
     font-weight: 400;
 }
+
+main div#exercisesList section div section select.listSelection {
+    padding: 0.5rem;
+    background-color: #0f172a;
+    color: white;
+    border-radius: 0.375rem;
+    position: absolute;
+}

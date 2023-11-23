@@ -12,6 +12,11 @@ let lists = [
   {
     name: "Back and Biceps",
     id: 0,
+    color: {
+      name: "Amber",
+      class: "text-amber-600",
+      id: 1,
+    },
     exercises: [
       {
         difficulty: "beginner",
@@ -63,6 +68,11 @@ let lists = [
   {
     name: "Leg Day",
     id: 1,
+    color: {
+      name: "Blue",
+      class: "text-blue-800",
+      id: 6,
+    },
     exercises: [
       {
         difficulty: "intermediate",

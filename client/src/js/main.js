@@ -1,3 +1,66 @@
+let colors = [
+  {
+    name: "Red",
+    class: "text-red-800",
+    id: 0,
+  },
+  {
+    name: "Amber",
+    class: "text-amber-600",
+    id: 1,
+  },
+  {
+    name: "Yellow",
+    class: "text-yellow-400",
+    id: 2,
+  },
+  {
+    name: "Lime",
+    class: "text-lime-500",
+    id: 3,
+  },
+  {
+    name: "Green",
+    class: "text-green-900",
+    id: 4,
+  },
+  {
+    name: "Sky",
+    class: "text-sky-400",
+    id: 5,
+  },
+  {
+    name: "Blue",
+    class: "text-blue-800",
+    id: 6,
+  },
+  {
+    name: "Violet",
+    class: "text-violet-400",
+    id: 7,
+  },
+  {
+    name: "Purple",
+    class: "text-purple-900",
+    id: 8,
+  },
+  {
+    name: "Fuchsia",
+    class: "text-fuchsia-400",
+    id: 9,
+  },
+  {
+    name: "Pink",
+    class: "text-pink-500",
+    id: 10,
+  },
+  {
+    name: "Brown",
+    class: "text-amber-950",
+    id: 11,
+  },
+];
+
 let searchSelection = document.querySelector("#searchSelection");
 
 let nameSearch = document.querySelector("#nameSearch");
@@ -137,6 +200,8 @@ function populateDropdown() {
           let option = `<option value="${list.id}">${list.name}</option>`;
           dropdown.insertAdjacentHTML("beforeend", option);
         });
+        let finalOption = "<option value='createNew'>CREATE NEW</option>";
+        dropdown.insertAdjacentHTML("beforeend", finalOption);
       });
     });
 }
