@@ -1,3 +1,5 @@
+// SEARCH PAGE
+
 let colors = [
   {
     name: "Red",
@@ -61,6 +63,7 @@ let colors = [
   },
 ];
 
+/* Select DOM elements */
 let searchSelection = document.querySelector("#searchSelection");
 
 let nameSearch = document.querySelector("#nameSearch");
@@ -72,6 +75,7 @@ let searchBtn = document.querySelector("#searchBtn");
 let clearBtn = document.querySelector("#clearSearch");
 let searchInput = "";
 
+/* Add event listener to search parameter selection */
 searchSelection.addEventListener("change", (event) => {
   if (event.target.value === "name") {
     nameSearch.classList.remove("hidden");
@@ -105,6 +109,7 @@ searchSelection.addEventListener("change", (event) => {
   }
 });
 
+/* Function to reset the search selections after a search */
 function hideAll() {
   nameSearch.classList.add("hidden");
   typeSelection.classList.add("hidden");
@@ -123,6 +128,7 @@ let baseURL = "https://api.api-ninjas.com/v1/exercises?";
 let api_key = "1JMQnEy0RPLJV4tBNDZCow==0istE6CwLcnJjg1s";
 let currentExercises;
 
+/* Make API call to Exercises API */
 function searchExercises() {
   let searchType = searchSelection.value;
 
@@ -148,7 +154,10 @@ function searchExercises() {
     });
 }
 
+/* Add event listener to search button */
 searchBtn.addEventListener("click", () => searchExercises());
+
+/* Add event listener to name search (only text input) for enter key press */
 nameSearch.addEventListener("keyup", (event) => {
   if (event.keyCode === 13) searchExercises();
 });
@@ -156,19 +165,26 @@ nameSearch.addEventListener("keyup", (event) => {
 let container = document.querySelector("#exercisesList");
 let waitingMessage = document.querySelector("#waitingMessage");
 
+/* Add event listener to clear button that clears the DOM and brings back the waiting message */
 clearBtn.addEventListener("click", () => {
   container.innerHTML = "";
   waitingMessage.classList.remove("hidden");
 })
 
+/* Populate the DOM with results of the search */
 function populateExercises(exercises) {
   container.innerHTML = "";
+
+  // Can't toggle because if user searches multiple times in a row the message will come on and off
   if (!waitingMessage.classList.contains("hidden")) {
     waitingMessage.classList.add("hidden");
   }
+
+  // To identify which exercise has been selected
   let idCount = 0;
 
   exercises.forEach((exercise) => {
+    // To identify and toggle the instructions paragraph when the view button is clicked
     let paragraphId = "paragraph" + idCount;
 
     let div = `<section class="p-4 rounded-md bg-slate-50 my-4 shadow-md"">
@@ -189,6 +205,7 @@ function populateExercises(exercises) {
   });
 }
 
+/* Get all "add to list" dropdowns and populate them with options matching the user's current lists */
 function populateDropdown() {
   let addDropdowns = document.getElementsByClassName("listSelection");
   fetch("/api/lists")
@@ -206,10 +223,12 @@ function populateDropdown() {
     });
 }
 
+/* Toggle the instructions paragraph on each exercise */
 function toggleInstructions(paragraphId) {
   paragraphId.classList.toggle("hidden");
 }
 
+/* Show the "add to list" dropdown when the user clicks the + button */
 function showDropdown(event) {
   let clicked = event.target;
   let dropdown = clicked.closest("section").lastElementChild;
@@ -220,7 +239,13 @@ function showDropdown(event) {
   }
 }
 
+/* TODO: Add selected exercise to one of the user's lists */
 function addExercise(event, idToAdd) {
   showDropdown(event);
   console.log(currentExercises[idToAdd]);
 }
+
+// LISTS PAGE
+
+/* Select DOM elements */
+let listsDisplay = document.querySelector("#displayLists");
