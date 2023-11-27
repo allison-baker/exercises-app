@@ -37,7 +37,11 @@
       </header>
     </div>
     <main class="w-2/3 mx-auto min-h-[80vh]">
-      <div id="displayLists"></div>
+      <div id="listsMessage" class="w-full flex justify-center items-center flex-col pt-48 text-center">
+        <h2 class="text-2xl pb-2">Hmmm. There is nothing to display yet.</h2>
+        <p>You don't currently have any lists.</br>Use the search function on the other page to find exercises to add to a list.</p>
+      </div>
+      <div id="displayLists" class="flex flex-row flex-wrap gap-4 p-4"></div>
     </main>
     <div class="bg-slate-300">
       <footer class="w-2/3 mx-auto text-center py-6">
@@ -47,7 +51,7 @@
         </p>
       </footer>
     </div>
-    <script src="src/js/main.js"></script>
+    <script src="src/js/lists.js"></script>
     <script>
       const date = new Date();
       const currYear = date.getFullYear();

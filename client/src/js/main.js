@@ -1,5 +1,3 @@
-// SEARCH PAGE
-
 let colors = [
   {
     name: "Red",
@@ -74,6 +72,7 @@ let difficultySelection = document.querySelector("#difficultySelection");
 let searchBtn = document.querySelector("#searchBtn");
 let clearBtn = document.querySelector("#clearSearch");
 let searchInput = "";
+let currentSearch = document.querySelector("#currentSearch");
 
 /* Add event listener to search parameter selection */
 searchSelection.addEventListener("change", (event) => {
@@ -152,6 +151,8 @@ function searchExercises() {
       populateDropdown();
       hideAll();
     });
+
+  currentSearch.innerHTML = `Search type: ${searchType}</br>Search input: ${searchInput}`;
 }
 
 /* Add event listener to search button */
@@ -164,11 +165,13 @@ nameSearch.addEventListener("keyup", (event) => {
 
 let container = document.querySelector("#exercisesList");
 let waitingMessage = document.querySelector("#waitingMessage");
+let currentSearchMessage = document.querySelector("#currentSearchMessage");
 
 /* Add event listener to clear button that clears the DOM and brings back the waiting message */
 clearBtn.addEventListener("click", () => {
   container.innerHTML = "";
   waitingMessage.classList.remove("hidden");
+  currentSearchMessage.classList.add("hidden");
 })
 
 /* Populate the DOM with results of the search */
@@ -178,6 +181,9 @@ function populateExercises(exercises) {
   // Can't toggle because if user searches multiple times in a row the message will come on and off
   if (!waitingMessage.classList.contains("hidden")) {
     waitingMessage.classList.add("hidden");
+  }
+  if (currentSearchMessage.classList.contains("hidden")) {
+    currentSearchMessage.classList.remove("hidden");
   }
 
   // To identify which exercise has been selected
@@ -244,8 +250,3 @@ function addExercise(event, idToAdd) {
   showDropdown(event);
   console.log(currentExercises[idToAdd]);
 }
-
-// LISTS PAGE
-
-/* Select DOM elements */
-let listsDisplay = document.querySelector("#displayLists");

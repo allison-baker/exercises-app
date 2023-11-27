@@ -123,7 +123,53 @@ let lists = [
   },
 ];
 
+/* Calculate id number - makes sure each id number is unique even if items have been added/deleted
+New id number is higher than any other number currently in the array */
+function getId(array) {
+  let newID = 0;
+  array.forEach((item) => {
+    if (item.id > newID) newID = item.id;
+  });
+  return newID + 1;
+}
+
+/* GET request - send lists */
 app.get("/api/lists", (req, res) => {
+  res.send(lists);
+});
+
+/* POST request - create new list */
+app.post("/api/list", (req, res) => {
+  lists.push({
+    name: req.body.name,
+    id: getId(lists),
+    color: req.body.color,
+    exercises: [req.body.exercise],
+  });
+
+  res.send(lists);
+});
+
+/* PUT request - update list information */
+app.put("/api/list", (req, res) => {
+  lists.forEach((list) => {
+    if (list.id === Number(req.body.id)) {
+      list.name = req.body.name;
+      list.color = req.body.color;
+    }
+  });
+
+  res.send(lists);
+});
+
+/* PUT request - add exercises to a list */
+app.put("/api/list/exercises", (req, res) => {
+  lists.forEach((list) => {
+    if (list.id === Number(req.body.id)) {
+      list.exercises.push(req.body.exercise);
+    }
+  });
+
   res.send(lists);
 });
 
