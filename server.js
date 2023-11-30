@@ -162,8 +162,13 @@ app.put("/api/list", (req, res) => {
   res.send(lists);
 });
 
-/* PUT request - add exercises to a list */
-app.put("/api/list/exercises", (req, res) => {
+app.delete("/api/list", (req, res) => {
+  lists = lists.filter((list) => list.id !== Number(req.body.id));
+  res.send(lists);
+})
+
+/* POST request - add an exercise to a list */
+app.post("/api/list/exercises", (req, res) => {
   lists.forEach((list) => {
     if (list.id === Number(req.body.id)) {
       list.exercises.push(req.body.exercise);
@@ -173,7 +178,13 @@ app.put("/api/list/exercises", (req, res) => {
   res.send(lists);
 });
 
+/* DELETE request - delete an exercise from a list */
+app.delete("/api/list/exercises", (req, res) => {
+  lists[Number(req.body.listId)].exercises.splice(Number(req.body.exerciseId), 1);
+  res.send(lists);
+})
+
 // LISTEN
 app.listen(port, () => {
-  console.log(`Todo app listening on port ${port}`);
+  console.log(`Exercises app listening on port ${port}`);
 });
