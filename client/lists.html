@@ -43,7 +43,8 @@
       </div>
       <div id="displayLists" class="flex flex-row flex-wrap gap-4 py-4"></div>
       <div id="detailView" class="hidden">
-        <button id="backBtn" class="btn bg-slate-900 my-4 py-2 px-4 rounded-md text-white">View All</button>
+        <button id="backBtn" class="btn bg-slate-900 mt-4 py-2 px-4 rounded-md text-white">View All</button>
+        <section id="listItemView"></section>
       </div>
     </main>
     <div class="bg-slate-300">
@@ -54,7 +55,7 @@
         </p>
       </footer>
     </div>
-    <script src="src/js/lists.js"></script>
+    <script src="src/js/lists.js" type="module"></script>
     <script>
       const date = new Date();
       const currYear = date.getFullYear();

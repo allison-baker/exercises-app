@@ -1,3 +1,5 @@
+import { toggleInstructions, toggleDropdown, populateDropdown } from "./utils.js";
+
 let colors = [
   {
     name: "Red",
@@ -172,7 +174,7 @@ clearBtn.addEventListener("click", () => {
   container.innerHTML = "";
   waitingMessage.classList.remove("hidden");
   currentSearchMessage.classList.add("hidden");
-})
+});
 
 /* Populate the DOM with results of the search */
 function populateExercises(exercises) {
@@ -193,60 +195,96 @@ function populateExercises(exercises) {
     // To identify and toggle the instructions paragraph when the view button is clicked
     let paragraphId = "paragraph" + idCount;
 
-    let div = `<section class="p-4 rounded-md bg-slate-50 my-4 shadow-md"">
-                <div class="flex flex-row justify-between items-center">
-                  <h2 class="font-bold text-2xl text-slate-800 mb-4">${exercise.name}</h2>
-                  <section>
-                    <button class="btn bg-emerald-600 text-white px-3 py-2 rounded-full" onclick="showDropdown(event)"><i class="fa-solid fa-plus"></i></button>
-                    <select class="listSelection" style="display: none;" onchange="addExercise(event, ${idCount})"></select>
-                  </section>
-                </div>
-                <h3 class="font-bold text-lg text-slate-600 mb-2">Difficulty: ${exercise.difficulty}, Type: ${exercise.type}, Muscle: ${exercise.muscle}</h3>
-                <button class="btn bg-slate-900 text-white px-4 py-2 rounded-md" onclick="toggleInstructions(${paragraphId})">View Instructions</button>
-                <p id="${paragraphId}" class="hidden mt-4 text-slate-900">${exercise.instructions}</p>
-              </section>`;
+    let section = document.createElement("section");
+    section.classList.add("rounded-md", "bg-slate-50", "my-4", "shadow-md");
 
-    container.insertAdjacentHTML("beforeend", div);
+    let div = document.createElement("div");
+    div.classList.add(
+      "flex",
+      "flex-row",
+      "justify-between",
+      "items-center",
+      "p-4"
+    );
+
+    let textSection = document.createElement("section");
+    let buttonSection = document.createElement("section");
+    buttonSection.id = idCount;
+
+    let h3 = document.createElement("h3");
+    h3.classList.add("text-xl", "text-slate-800", "mb-2");
+    h3.textContent = exercise.name;
+
+    let h4 = document.createElement("h4");
+    h4.classList.add("font-bold", "text-slate-600", "mb-4");
+    h4.textContent = `Difficulty: ${exercise.difficulty}, Type: ${exercise.type}, Muscle: ${exercise.muscle}`;
+
+    let toggleBtn = document.createElement("button");
+    toggleBtn.classList.add(
+      "btn",
+      "bg-slate-900",
+      "text-white",
+      "px-4",
+      "py-2",
+      "rounded-md"
+    );
+    toggleBtn.addEventListener("click", (event) => toggleInstructions(event));
+    toggleBtn.textContent = "View Instructions";
+
+    textSection.appendChild(h3);
+    textSection.appendChild(h4);
+    textSection.appendChild(toggleBtn);
+
+    let addBtn = document.createElement("button");
+    addBtn.classList.add(
+      "btn",
+      "bg-emerald-600",
+      "text-white",
+      "w-10",
+      "h-10",
+      "flex",
+      "justify-center",
+      "items-center",
+      "rounded-full",
+      "mt-2"
+    );
+    addBtn.addEventListener("click", (event) => toggleDropdown(event));
+    addBtn.innerHTML = '<i class="fa-solid fa-plus"></i>';
+
+    let selectList = document.createElement("select");
+    selectList.classList.add("listSelection");
+    selectList.style.display = "none";
+    selectList.addEventListener("change", (event) => addExercise(event));
+
+    buttonSection.appendChild(addBtn);
+    buttonSection.appendChild(selectList);
+
+    div.appendChild(textSection);
+    div.appendChild(buttonSection);
+
+    let instructions = document.createElement("p");
+    instructions.classList.add(
+      "hidden",
+      "p-4",
+      "bg-slate-300",
+      "text-slate-900",
+      "rounded-b-md"
+    );
+    instructions.id = paragraphId;
+    instructions.textContent = exercise.instructions;
+
+    section.appendChild(div);
+    section.appendChild(instructions);
+
+    container.appendChild(section);
     idCount++;
   });
 }
 
-/* Get all "add to list" dropdowns and populate them with options matching the user's current lists */
-function populateDropdown() {
-  let addDropdowns = document.getElementsByClassName("listSelection");
-  fetch("/api/lists")
-    .then((res) => res.json())
-    .then((data) => {
-      Array.from(addDropdowns).forEach((dropdown) => {
-        dropdown.innerHTML = "<option value=''>--Add to List--</option>";
-        data.forEach((list) => {
-          let option = `<option value="${list.id}">${list.name}</option>`;
-          dropdown.insertAdjacentHTML("beforeend", option);
-        });
-        let finalOption = "<option value='createNew'>CREATE NEW</option>";
-        dropdown.insertAdjacentHTML("beforeend", finalOption);
-      });
-    });
-}
-
-/* Toggle the instructions paragraph on each exercise */
-function toggleInstructions(paragraphId) {
-  paragraphId.classList.toggle("hidden");
-}
-
-/* Show the "add to list" dropdown when the user clicks the + button */
-function showDropdown(event) {
+/* FIXME: Add selected exercise to one of the user's lists */
+function addExercise(event) {
+  toggleDropdown(event);
   let clicked = event.target;
-  let dropdown = clicked.closest("section").lastElementChild;
-  if (dropdown.style.display === "none") {
-    dropdown.style.display = "block";
-  } else {
-    dropdown.style.display = "none";
-  }
-}
-
-/* TODO: Add selected exercise to one of the user's lists */
-function addExercise(event, idToAdd) {
-  showDropdown(event);
-  console.log(currentExercises[idToAdd]);
+  let id = Number(clicked.closest("section").id);
+  console.log(id);
 }
