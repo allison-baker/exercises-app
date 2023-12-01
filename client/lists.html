@@ -26,29 +26,54 @@
       >
         <h1 class="font-bold text-3xl text-slate-800">Workout Builder</h1>
         <div>
-          <a class="mr-8 text-lg" href="index.html">Create</a>
+          <a class="text-lg mr-8" href="index.html">Search</a>
+          <a class="text-lg mr-8" href="create.html"> Create </a>
           <a
             class="text-lg underline font-bold text-slate-600"
             href="lists.html"
+            >Lists</a
           >
-            My Lists
-        </a>
         </div>
       </header>
     </div>
-    <main class="w-2/3 mx-auto min-h-[80vh]">
-      <div id="listsMessage" class="w-full flex justify-center items-center flex-col pt-48 text-center">
+    <main class="w-2/3 mx-auto min-h-[80vh] pt-6">
+      <a class="px-4 py-2 bg-slate-900 text-white rounded-md" href="create.html">Create New List</a>
+      <div
+        id="listsMessage"
+        class="w-full flex justify-center items-center flex-col pt-48 text-center"
+      >
         <h2 class="text-2xl pb-2">Hmmm. There is nothing to display yet.</h2>
-        <p>You don't currently have any lists.</br>Use the search function on the other page to find exercises to add to a list.</p>
+        <p>
+          You don't currently have any lists.<br />Use the search function on
+          the other page to find exercises to add to a list.
+        </p>
       </div>
-      <div id="editForm" class="hidden">
-        <input type="text" id="nameInput" class="p-2 mr-4 bg-slate-100 rounded-md" placeholder="New Name"/>
-        <select id="colorInput" class="p-2 my-4 mr-4 bg-slate-100 rounded-md"></select>
-        <button id="editBtn" class="btn bg-slate-900 my-4 py-2 px-4 rounded-md text-white">Edit List</button>
+      <div id="editForm" class="hidden mt-6">
+        <input
+          type="text"
+          id="nameInput"
+          class="p-2 mr-4 bg-slate-100 rounded-md"
+          placeholder="New Name"
+        />
+        <select
+          id="colorInput"
+          class="p-2 mr-4 bg-slate-100 rounded-md"
+        ></select>
+        <button
+          id="editBtn"
+          class="btn bg-slate-900 py-2 px-4 rounded-md text-white"
+        >
+          Edit List
+        </button>
       </div>
       <div id="displayLists" class="flex flex-row flex-wrap gap-4 py-4"></div>
       <div id="detailView" class="hidden">
-        <button id="backBtn" class="btn bg-slate-900 mt-4 py-2 px-4 rounded-md text-white">View All</button>
+        <button
+          id="backBtn"
+          class="btn bg-slate-900 mt-4 py-2 px-4 rounded-md text-white"
+        >
+          View All
+        </button>
         <section id="listItemView"></section>
       </div>
     </main>

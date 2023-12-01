@@ -218,10 +218,24 @@ function populateExercises(exercises) {
   });
 }
 
-/* FIXME: Add selected exercise to one of the user's lists */
+/* Add selected exercise to one of the user's lists */
 function addExercise(event) {
   toggleDropdown(event);
   let clicked = event.target;
   let id = Number(clicked.closest("section").id);
-  console.log(id);
+  fetch("/api/list/exercises", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify({
+      exercise: currentExercises[id],
+      id: clicked.value,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      alert("Exercise added successfully.");
+    });
 }

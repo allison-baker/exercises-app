@@ -150,7 +150,7 @@ function populateLists(lists) {
     );
     editBtn.onclick = function () {
       currentListViewId = list.id;
-      toggleEdit();
+      showEdit();
     };
     editBtn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
 
@@ -386,15 +386,25 @@ function populateColors() {
 }
 
 editBtn.addEventListener("click", () => {
-  toggleEdit();
   editList();
+  editForm.classList.add("hidden");
 });
 
 populateColors();
 
 /* Edit name and color of list */
-function toggleEdit() {
-  editForm.classList.toggle("hidden");
+function showEdit() {
+  fetch("/api/lists")
+    .then((res) => res.json())
+    .then((data) => {
+      data.forEach((list) => {
+        if (list.id === currentListViewId) {
+          nameInput.value = list.name;
+          colorInput.value = list.color.id;
+        }
+      })
+    })
+  editForm.classList.remove("hidden");
 }
 
 function editList() {
@@ -417,11 +427,11 @@ function editList() {
     });
 }
 
-/* TODO: Delete list */
+/* Delete list */
 function deleteList() {
   fetch("/api/list", {
     method: "DELETE",
-    header: {
+    headers: {
       "Content-Type": "application/json;charset=utf-8",
     },
     body: JSON.stringify({
