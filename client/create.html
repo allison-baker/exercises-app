@@ -30,15 +30,88 @@
           <a
             class="mr-8 text-lg underline font-bold text-slate-600"
             href="create.html"
+            >Create</a
           >
-            Create
-          </a>
           <a class="text-lg" href="lists.html">Lists</a>
         </div>
       </header>
     </div>
     <main class="w-2/3 mx-auto min-h-[80vh]">
-        
+      <h2 class="text-2xl my-4">Create New Workout List</h2>
+      <div
+        class="my-4 flex flex-row items-center gap-4 bg-slate-100 rounded-md shadow-md p-4"
+      >
+        <input
+          id="createName"
+          class="p-2 rounded-md"
+          type="text"
+          placeholder="List Name"
+        />
+        <select id="createColor" class="p-2 rounded-md"></select>
+        <button
+          id="createListBtn"
+          class="btn rounded-md bg-slate-900 text-white py-2 px-4"
+        >
+          Create List
+        </button>
+      </div>
+      <h2 class="text-2xl my-4">Create Custom Exercise</h2>
+      <div class="my-4 bg-slate-100 rounded-md shadow-md p-4">
+        <input
+            id="exerciseName"
+            class="p-2 rounded-md"
+            type="text"
+            placeholder="Exercise Name"
+          />
+        <section class="flex flex-row items-center gap-4 my-4">
+          <select id="difficultyCreate" class="p-2 rounded-md">
+            <option value="">--Select Difficulty--</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="expert">Expert</option>
+          </select>
+          <select id="equipmentCreate" class="p-2 rounded-md">
+            <option value="">--Select Equipment--</option>
+            <option value="body_only">Body Only</option>
+            <option value="dumbbell">Dumbbell</option>
+            <option value="cable">Cable</option>
+            <option value="barbell">Barbell</option>
+            <option value="machine">Machine</option>
+            <option value="other">Other</option>
+          </select>
+          <select id="muscleCreate" class="p-2 rounded-md">
+            <option value="">--Choose Muscle Group--</option>
+            <option value="abdominals">Abdominals</option>
+            <option value="abductors">Abductors</option>
+            <option value="adductors">Adductors</option>
+            <option value="biceps">Biceps</option>
+            <option value="calves">Calves</option>
+            <option value="chest">Chest</option>
+            <option value="forearms">Forearms</option>
+            <option value="glutes">Glutes</option>
+            <option value="hamstrings">Hamstrings</option>
+            <option value="lats">Lats</option>
+            <option value="lower_back">Lower Back</option>
+            <option value="middle_back">Middle Back</option>
+            <option value="neck">Neck</option>
+            <option value="quadriceps">Quadriceps</option>
+            <option value="traps">Traps</option>
+            <option value="triceps">Triceps</option>
+          </select>
+          <select id="typeCreate" class="p-2 rounded-md">
+            <option value="">--Choose Exercise Type--</option>
+            <option value="cardio">Cardio</option>
+            <option value="olympic_weightlifting">Olympic Weightlifting</option>
+            <option value="plyometrics">Plyometrics</option>
+            <option value="powerlifting">Powerlifting</option>
+            <option value="strength">Strength</option>
+            <option value="stretching">Stretching</option>
+            <option value="strongman">Strongman</option>
+          </select>
+        </section>
+        <textarea placeholder="Instructions" class="p-2 rounded-md"></textarea>
+        <button id="createExerciseBtn" class="bg-slate-900 text-white px-4 py-2 rounded-md block mt-4">Create Exercise</button>
+      </div>
     </main>
     <div class="bg-slate-300">
       <footer class="w-2/3 mx-auto text-center py-6">
@@ -48,7 +121,7 @@
         </p>
       </footer>
     </div>
-    <script src="src/js/main.js" type="module"></script>
+    <script src="src/js/create.js" type="module"></script>
     <script>
       const date = new Date();
       const currYear = date.getFullYear();

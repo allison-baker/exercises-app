@@ -1,71 +1,10 @@
 import {
+  COLORS,
   toggleInstructions,
   toggleDropdown,
   populateDropdown,
+  populateColors,
 } from "./utils.js";
-
-let colors = [
-  {
-    name: "Red",
-    class: "text-red-800",
-    id: 0,
-  },
-  {
-    name: "Amber",
-    class: "text-amber-600",
-    id: 1,
-  },
-  {
-    name: "Yellow",
-    class: "text-yellow-400",
-    id: 2,
-  },
-  {
-    name: "Lime",
-    class: "text-lime-500",
-    id: 3,
-  },
-  {
-    name: "Green",
-    class: "text-green-900",
-    id: 4,
-  },
-  {
-    name: "Sky",
-    class: "text-sky-400",
-    id: 5,
-  },
-  {
-    name: "Blue",
-    class: "text-blue-800",
-    id: 6,
-  },
-  {
-    name: "Violet",
-    class: "text-violet-400",
-    id: 7,
-  },
-  {
-    name: "Purple",
-    class: "text-purple-900",
-    id: 8,
-  },
-  {
-    name: "Fuchsia",
-    class: "text-fuchsia-400",
-    id: 9,
-  },
-  {
-    name: "Pink",
-    class: "text-pink-500",
-    id: 10,
-  },
-  {
-    name: "Brown",
-    class: "text-amber-950",
-    id: 11,
-  },
-];
 
 let currentExercises = [];
 let currentListViewId = NaN;
@@ -181,11 +120,14 @@ function populateLists(lists) {
 let detailView = document.querySelector("#detailView");
 let backBtn = document.querySelector("#backBtn");
 let itemView = document.querySelector("#listItemView");
+let createLink = document.querySelector("#createLink");
 
 /* Get lists from back end and find specific list */
 function viewDetails(id) {
   listsContainer.classList.add("hidden");
   detailView.classList.remove("hidden");
+  createLink.classList.add("hidden");
+
   currentListViewId = id;
   fetch("/api/lists")
     .then((res) => res.json())
@@ -316,15 +258,15 @@ function populateDetailView(list) {
   });
 }
 
-backBtn.addEventListener("click", () => {
-  goBack();
-});
-
 /* Reset from detail view to viewing all lists */
 function goBack() {
   listsContainer.classList.remove("hidden");
   detailView.classList.add("hidden");
+  createLink.classList.remove("hidden");
 }
+backBtn.addEventListener("click", () => {
+  goBack();
+});
 
 /* Add selected exercise to another one of the user's lists */
 function moveExercise(event) {
@@ -371,35 +313,20 @@ function deleteExercise(event) {
 }
 
 let editForm = document.querySelector("#editForm");
-let nameInput = document.querySelector("#nameInput");
-let colorInput = document.querySelector("#colorInput");
+let newName = document.querySelector("#nameInput");
+let newColor = document.querySelector("#colorInput");
 let editBtn = document.querySelector("#editBtn");
 
-function populateColors() {
-  let initial = `<option value="">--Select Color--</option>`;
-  colorInput.insertAdjacentHTML("beforeend", initial);
+populateColors(newColor);
 
-  colors.forEach((color) => {
-    let option = `<option value="${color.id}">${color.name}</option>`;
-    colorInput.insertAdjacentHTML("beforeend", option);
-  });
-}
-
-editBtn.addEventListener("click", () => {
-  editList();
-  editForm.classList.add("hidden");
-});
-
-populateColors();
-
-/* Edit name and color of list */
+/* Populate edit form inputs with current values from selected list and show form */
 function showEdit() {
   fetch("/api/lists")
     .then((res) => res.json())
     .then((data) => {
       data.forEach((list) => {
         if (list.id === currentListViewId) {
-          nameInput.value = list.name;
+          newName.value = list.name;
           colorInput.value = list.color.id;
         }
       })
@@ -407,6 +334,7 @@ function showEdit() {
   editForm.classList.remove("hidden");
 }
 
+/* Update selected list with new values and repopulate page */
 function editList() {
   fetch("/api/list", {
     method: "PUT",
@@ -416,12 +344,12 @@ function editList() {
     body: JSON.stringify({
       id: currentListViewId,
       name: nameInput.value,
-      color: colors[Number(colorInput.value)],
+      color: COLORS[Number(colorInput.value)],
     }),
   })
     .then((res) => res.json())
     .then((data) => {
-      nameInput.value = "";
+      newName.value = "";
       colorInput.value = "";
       populateLists(data);
     });
@@ -441,3 +369,9 @@ function deleteList() {
     .then((res) => res.json())
     .then((data) => populateLists(data));
 }
+
+/* Call the edit function and hide the edit form */
+editBtn.addEventListener("click", () => {
+  editList();
+  editForm.classList.add("hidden");
+});

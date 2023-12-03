@@ -144,7 +144,6 @@ app.post("/api/list", (req, res) => {
     name: req.body.name,
     id: getId(lists),
     color: req.body.color,
-    exercises: [req.body.exercise],
   });
 
   res.send(lists);
