@@ -16,3 +16,10 @@ select.listSelection {
     border-radius: 0.375rem;
     position: absolute;
 }
+
+select#listAdd {
+    background-color: white;
+    margin-left: 0.75rem;
+    position: relative;
+    color: black;
+}

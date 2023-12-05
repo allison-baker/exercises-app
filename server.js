@@ -161,10 +161,11 @@ app.put("/api/list", (req, res) => {
   res.send(lists);
 });
 
+/* DELETE request - delete list from array */
 app.delete("/api/list", (req, res) => {
   lists = lists.filter((list) => list.id !== Number(req.body.id));
   res.send(lists);
-})
+});
 
 /* POST request - add an exercise to a list */
 app.post("/api/list/exercises", (req, res) => {
@@ -179,9 +180,32 @@ app.post("/api/list/exercises", (req, res) => {
 
 /* DELETE request - delete an exercise from a list */
 app.delete("/api/list/exercises", (req, res) => {
-  lists[Number(req.body.listId)].exercises.splice(Number(req.body.exerciseId), 1);
+  lists[Number(req.body.listId)].exercises.splice(
+    Number(req.body.exerciseId),
+    1
+  );
   res.send(lists);
-})
+});
+
+/* POST request - create a custom exercise */
+app.post("/api/exercises", (req, res) => {
+  let exercise = {
+    difficulty: req.body.difficulty,
+    equipment: req.body.equipment,
+    instructions: req.body.instructions,
+    muscle: req.body.muscle,
+    name: req.body.name,
+    type: req.body.type,
+  };
+
+  lists.forEach((list) => {
+    if (list.id === Number(req.body.id)) {
+      list.exercises.push(exercise);
+    };
+  });
+
+  res.send(lists);
+});
 
 // LISTEN
 app.listen(port, () => {
