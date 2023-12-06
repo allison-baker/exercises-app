@@ -24,6 +24,8 @@ createBtn.addEventListener("click", () => {
       console.log(data);
       listColor.value = "";
       listName.value = "";
+      populateDropdown();
+      alert("List created successfully.");
     });
 });
 
@@ -39,6 +41,33 @@ let typeCreate = document.querySelector("#typeCreate");
 let instructions = document.querySelector("#instructions");
 let createExerciseBtn = document.querySelector("#createExerciseBtn");
 
+/* Event listener for create exercise button that makes a POST request */
 createExerciseBtn.addEventListener("click", () => {
-    fetch("/api/")
-})
+  fetch("/api/exercises", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify({
+      difficulty: difficultyCreate.value,
+      equipment: equipmentCreate.value,
+      instructions: instructions.value,
+      muscle: muscleCreate.value,
+      name: exerciseName.value,
+      type: typeCreate.value,
+      id: listAdd.value,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      difficultyCreate.value = "";
+      equipmentCreate.value = "";
+      instructions.value = "";
+      muscleCreate.value = "";
+      exerciseName.value = "";
+      typeCreate.value = "";
+      listAdd.value = "";
+      alert("Exercise created successfully and added to list.");
+    });
+});

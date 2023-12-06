@@ -144,6 +144,7 @@ app.post("/api/list", (req, res) => {
     name: req.body.name,
     id: getId(lists),
     color: req.body.color,
+    exercises: [],
   });
 
   res.send(lists);
@@ -180,7 +181,8 @@ app.post("/api/list/exercises", (req, res) => {
 
 /* DELETE request - delete an exercise from a list */
 app.delete("/api/list/exercises", (req, res) => {
-  lists[Number(req.body.listId)].exercises.splice(
+  let index = lists.findIndex((list) => list.id === Number(req.body.listId));
+  lists[index].exercises.splice(
     Number(req.body.exerciseId),
     1
   );
@@ -189,6 +191,7 @@ app.delete("/api/list/exercises", (req, res) => {
 
 /* POST request - create a custom exercise */
 app.post("/api/exercises", (req, res) => {
+  console.log(req.body);
   let exercise = {
     difficulty: req.body.difficulty,
     equipment: req.body.equipment,

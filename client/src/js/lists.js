@@ -32,7 +32,7 @@ function populateLists(lists) {
       "bg-slate-50",
       "shadow-md",
       "rounded-md",
-      "w-1/3",
+      "w-full",
       "flex",
       "flex-col",
       "justify-between"
@@ -148,6 +148,21 @@ function populateDetailView(list) {
   let title = `<h2 class="text-2xl font-bold my-4 ${list.color.class}">${list.name}</h2>`;
   itemView.insertAdjacentHTML("beforeend", title);
 
+  let shareBtn = document.createElement("button");
+  shareBtn.classList.add(
+    "px-4",
+    "py-2",
+    "rounded-md",
+    "bg-slate-900",
+    "text-white",
+    "btn"
+  );
+  shareBtn.textContent = "Share this List";
+  itemView.appendChild(shareBtn);
+  shareBtn.onclick = function () {
+    downloadList();
+  };
+
   // To identify which exercise has been selected
   let idCount = 0;
 
@@ -258,6 +273,32 @@ function populateDetailView(list) {
   });
 }
 
+/* Function called every time the share list button is clicked */
+function downloadList() {
+  fetch("/api/lists")
+    .then((res) => res.json())
+    .then((data) => {
+      let currentList = data.filter((list) => list.id === currentListViewId);
+      saveFile(currentList);
+    });
+}
+
+/* Saves the list to the user's computer as a txt file */
+function saveFile(list) {
+  const listJSON = JSON.stringify(list);
+  const blob = new Blob([listJSON], { type: "text/plain" });
+  const objectURL = URL.createObjectURL(blob);
+
+  const fileName = "my_list.txt";
+  const anchor = document.createElement("a");
+  anchor.href = objectURL;
+  anchor.download = fileName;
+
+  anchor.click();
+
+  URL.revokeObjectURL(objectURL);
+}
+
 /* Reset from detail view to viewing all lists */
 function goBack() {
   listsContainer.classList.remove("hidden");
@@ -329,8 +370,8 @@ function showEdit() {
           newName.value = list.name;
           colorInput.value = list.color.id;
         }
-      })
-    })
+      });
+    });
   editForm.classList.remove("hidden");
 }
 
